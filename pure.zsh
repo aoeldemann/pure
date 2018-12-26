@@ -14,6 +14,7 @@
 # %* => time
 # %n => username
 # %m => shortname host
+# %M => longname host
 # %(?..) => prompt conditional - %(condition.true.false)
 # terminal codes:
 # \e7   => save cursor position
@@ -67,7 +68,7 @@ prompt_pure_set_title() {
 	local hostname=
 	if [[ -n $prompt_pure_state[username] ]]; then
 		# Expand in-place in case ignore-escape is used.
-		hostname="${(%):-(%m) }"
+		hostname="${(%):-(%M) }"
 	fi
 
 	local -a opts
@@ -534,10 +535,10 @@ prompt_pure_state_setup() {
 	fi
 
 	# show username@host if logged in through SSH
-	[[ -n $ssh_connection ]] && username='%F{242}%n@%m%f'
+	[[ -n $ssh_connection ]] && username='%F{242}%n@%M%f'
 
 	# show username@host if root, with username in white
-	[[ $UID -eq 0 ]] && username='%F{white}%n%f%F{242}@%m%f'
+	[[ $UID -eq 0 ]] && username='%F{white}%n%f%F{242}@%M%f'
 
 	typeset -gA prompt_pure_state
 	prompt_pure_state=(
